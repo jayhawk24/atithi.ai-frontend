@@ -8,9 +8,8 @@ import QrReader from './ui/qr-reader';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
-type Props = {}
 
-const QRScanCard = (props: Props) => {
+const QRScanCard = () => {
     const [isScanning, setIsScanning] = useState(false);
     const [scannedResult, setScannedResult] = useState("");
 

@@ -3,6 +3,7 @@ import localfont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import { Suspense } from "react";
 
 const gilroy = localfont({
   src: [
@@ -55,7 +56,9 @@ export default function RootLayout({
           <div className="flex justify-center items-center h-screen w-screen">
             <div className="w-screen h-screen md:max-w-screen-sm bg-zinc-50 dark:bg-zinc-900 p-5">
               <Header />
-              {children}
+              <Suspense>
+                {children}
+              </Suspense>
             </div>
           </div>
         </ThemeProvider>

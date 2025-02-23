@@ -3,7 +3,6 @@ import React from 'react'
 import { ModeToggle } from './mode-toggle'
 import Link from 'next/link'
 
-type Props = {}
 
 const Header = () => {
     return (
