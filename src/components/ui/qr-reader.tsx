@@ -17,10 +17,8 @@ const QrReader = ({ isScanning, setIsScanning, setScannedResult }: Props) => {
 
     // Success
     const onScanSuccess = (result: QrScanner.ScanResult) => {
-        // 🖨 Print the "result" to browser console.
         console.log(result);
         // ✅ Handle success.
-        // 😎 You can do whatever you want with the scanned result.
         setScannedResult(result?.data);
         setIsScanning(false);
         setQrOn(false);

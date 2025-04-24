@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
 import { Suspense } from "react";
+import Providers from "@/lib/providers";
 
 const gilroy = localfont({
   src: [
@@ -42,26 +43,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${gilroy.className} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex justify-center items-center h-screen w-screen">
-            <div className="w-screen h-screen md:max-w-screen-sm bg-zinc-50 dark:bg-zinc-900 p-5">
-              <Header />
-              <Suspense>
-                {children}
-              </Suspense>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex justify-center items-center h-screen w-screen">
+              <div className="w-screen h-screen md:max-w-screen-sm bg-zinc-50 dark:bg-zinc-900 p-5">
+                <Header />
+                <Suspense>
+                  {children}
+                </Suspense>
+              </div>
             </div>
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -12,15 +12,22 @@ import { usePathname } from 'next/navigation';
 const QRScanCard = () => {
     const [isScanning, setIsScanning] = useState(false);
     const [scannedResult, setScannedResult] = useState("");
+    const [roomCode, setRoomCode] = useState("");
 
     const router = useRouter();
     const pathname = usePathname();
 
-    const addQueryParam = () => {
+    const addQueryParam = (code: string = scannedResult) => {
         const params = new URLSearchParams();
-        params.set("room_code", scannedResult);
-        router.push(`${pathname}?${params.toString()}`);
+        params.set("room_code", code);
+        router.push(`/room/?${params.toString()}`);
     };
+
+    const handleSubmitCode = (code: string) => {
+        if (code) {
+            addQueryParam(code);
+        }
+    }
 
     useEffect(() => {
         if (scannedResult) {
@@ -49,8 +56,8 @@ const QRScanCard = () => {
                 or enter the room code
             </h2>
             <div className="flex">
-                <Input placeholder="Room code" className="mr-2" />
-                <Button className="w-10" >
+                <Input placeholder="Room code" className="mr-2" value={roomCode} onChange={(e) => setRoomCode(e.target.value)} />
+                <Button className="w-10" onClick={() => handleSubmitCode(roomCode)}>
                     <ChevronRight />
                 </Button>
             </div>
