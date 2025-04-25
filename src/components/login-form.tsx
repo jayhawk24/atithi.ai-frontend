@@ -1,3 +1,4 @@
+"use client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -9,18 +10,32 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useState } from "react"
+import { useLogin } from "./hooks/useLogin"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const { mutate: login, isPending } = useLogin();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("Logging in with", { email, password })
+    login({ email, password })
+  }
+
+
   return (
     <div className={cn("flex flex-col gap-8", className)} {...props}>
       <div className="border border-zinc-200 dark:border-zinc-700 rounded-xl">
         <CardHeader>
           <CardTitle className="text-3xl mb-2">Login</CardTitle>
           <CardDescription>
-            Enter your phone number below to login to your account
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -34,6 +49,8 @@ export function LoginForm({
                     type="email"
                     placeholder="m@example.com"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -46,12 +63,17 @@ export function LoginForm({
                       Forgot your password?
                     </a>
                   </div>
-                  <Input id="password" type="password" required />
+                  <Input id="password" type="password" required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="********"
+                    disabled={isPending}
+                  />
                 </div>
               </div>
               <div className="space-y-4">
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isPending} onClick={handleSubmit}>
+                  {isPending ? 'Logging in...' : 'Login'}
                 </Button>
                 <Button variant="outline" className="w-full">
                   Login with Google
