@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useState } from "react"
 import { useLogin } from "./hooks/useLogin"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
@@ -20,7 +21,9 @@ export function LoginForm({
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const { mutate: login, isPending } = useLogin();
+  const router = useRouter()
+
+  const { mutate: login, isPending, isSuccess } = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,6 +31,11 @@ export function LoginForm({
     login({ email, password })
   }
 
+  if (isSuccess) {
+    // Handle successful login, e.g., redirect to dashboard
+    console.log("Login successful")
+    router.push("/dashboard")
+  }
 
   return (
     <div className={cn("flex flex-col gap-8", className)} {...props}>

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useState } from "react"
 import { useSignup } from "./hooks/useSignup"
+import { useRouter } from "next/navigation"
 
 export function SignupForm({
     className,
@@ -22,12 +23,15 @@ export function SignupForm({
     const [name, setName] = useState("")
     const [role, setRole] = useState("staff")
 
-    const { mutate: signupUser, isPending } = useSignup()
+    const { mutate: signupUser, isPending, isSuccess } = useSignup()
+    const router = useRouter()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         signupUser({ email, name, password, role })
     }
+    if (isSuccess)
+        router.push("/login")
 
     return (
         <div className={cn("flex flex-col gap-8", className)} {...props}>
